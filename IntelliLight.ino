@@ -9,7 +9,7 @@ char ssid[] = "EmbedNet2"; //SSID of your Wi-Fi router
 char pass[] = "betonprint"; //Password of your Wi-Fi router
 
 //mqtt
-#define mqtt_server "192.168.1.121"
+#define mqtt_server "192.168.1.128"
 #define mqtt_user ""
 #define mqtt_password ""
 WiFiClient espClient;
@@ -35,33 +35,35 @@ void setup() {
   connect_wifi();
   connect_mqtt();
   for (int i = 0; i < 10; i++) {
-    counters[i] = Counter(0, i+1, true);
+    counters[i] = Counter(0, i + 1, true);
   }
 }
 
 void loop() {
   //reset to main color
-  setMainColor();
+  //setMainColor();
 
-  //run counter loop
+  //switchSimple is just for testing/debugging
+  //  if (switchSimple) {
+  //    allLanesRGB(CRGB( counters[3].getVal(), 0 , counters[4].getVal()),
+  //                CRGB( 0, counters[4].getVal(), 0),
+  //                CRGB( 0, counters[8].getVal(), 0),
+  //                CRGB( 0, 0, counters[1].getVal()));
+  //  }
+  stateLoop();
+  showLeds();
+
+  //run counter loops
   for (int i = 0; i < 10; i++) {
     counters[i].count();
   }
 
-  //switchSimple is just for testing/debugging
-  if (switchSimple) {
-    allLanesRGB(CRGB( counters[3].getVal(), 0 , counters[4].getVal()),
-                CRGB( 0, counters[4].getVal(), 0),
-                CRGB( 0, counters[8].getVal(), 0),
-                CRGB( 0, 0, counters[1].getVal()));
-  }
-  showLeds();
-  //debugCounters();
-  
   //maintain mqtt connection
   if (!client.connected())
     reconnect();
   client.loop();
+
+  //debugCounters();
 }
 
 void showLeds() {
@@ -76,13 +78,6 @@ void showLeds() {
     for (int i = 0; i < NUM_LEDS; i++)
       last_leds[i] = leds[i];
   }
-}
-
-void debugCounters() {
-  for (int i = 0; i < 10; i++) {
-    Serial.print(counters[i].getVal()+ ", ");
-  }
-  Serial.println();
 }
 
 

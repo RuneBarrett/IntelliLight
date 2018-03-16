@@ -9,12 +9,18 @@ bool connect_wifi() {
   WiFi.begin(ssid, pass);
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
-    Serial.print(".");
+    Serial.print("-");
   }
   Serial.println("");
   Serial.println("Wi-Fi connected successfully");
 }
 
+void debugCounters() {
+  for (int i = 0; i < 10; i++) {
+    Serial.print(counters[i].getVal()+ ", ");
+  }
+  Serial.println();
+}
 /*bool initCounters() {
   for (int i = 0; i < counter1.length; i++) {
     //counter1[i] = i*20;
