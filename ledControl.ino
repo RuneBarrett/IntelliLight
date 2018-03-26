@@ -1,3 +1,5 @@
+// -------------- STATIC LIGHT MODES ----------------- (directly adresses led array)
+//Set the lamp to normal light
 void setMainColor() {
   CHSV lessBright = mainColor;
   lessBright.val = lessBright.val - lessBright.val * 0.4;
@@ -10,6 +12,28 @@ void setMainColor() {
   }
 }
 
+//Used for dimming the main color variable
+void dimMainHSV(int val) {
+  if (val + mainColor.val > 255)
+    mainColor.val = 255;
+  else if (val + mainColor.val < 0)
+    mainColor.val = 0;
+  else
+    mainColor.val += val;
+}
+
+//Set the lamp to movie lights
+void setMovieLights() {}
+
+//Wakeup mode
+void setWakeupLights() {}
+
+//A "loading screen"
+void loadingLight() {
+  allLanesRGB(CRGB( 0, counters[4].getVal(), 0), CRGB( counters[4].getVal(), counters[7].getVal(), 0), CRGB( 0, counters[3].getVal(), 0), CRGB( 0, 0, counters[9].getVal()));
+}
+
+// -------------- DYNAMIC LIGHT METHODS ----------------- (used by other light control methods)
 void allLanesRGB(CRGB outer, CRGB outmid, CRGB midin, CRGB inner) {
   for (int i = 0; i < NUM_LEDS; i = i + 1)
   {
@@ -24,6 +48,23 @@ void allLanesRGB(CRGB outer, CRGB outmid, CRGB midin, CRGB inner) {
   }
 }
 
+
+// -------------- UTILITY LIGHT CONTROL METHODS -----------------
+//only adress the leds if the array changed
+void showLeds() {
+  bool changed = false;
+  for (int i = 0; i < NUM_LEDS; i++)
+    if (leds[i] != last_leds[i])
+      changed = true;
+  if (changed) {
+    FastLED.show();
+    for (int i = 0; i < NUM_LEDS; i++)
+      last_leds[i] = leds[i];
+  }
+}
+
+
+// --- DEBUG/TEST/OTHER STUFF ---
 void pulseRGB() {
   for (int i = 0; i < NUM_LEDS; i = i + 1)
   {
@@ -38,13 +79,7 @@ void pulseRGB() {
   }
 }
 
-void wifiConnectL(){
-  allLanesRGB()
-  }
-void testTimers() {
-  for (int i = 0; i < 10; i++)
-    leds[i] = counters[5].getVal();
-}
+
 
 
 

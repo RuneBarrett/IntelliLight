@@ -2,31 +2,35 @@
 //Serial.println(client.publish("cmnd/sonoff_ceiling/power", "OFF"));
 
 void connect_mqtt() {
+  Serial.print("Connecting MQTT ... succes = ");
   client.setServer(mqtt_server, 1883);
-  client.connect("FunkyLamp", mqtt_user, mqtt_password);
+  Serial.println(client.connect("IntelliLampTest"));
   client.setCallback(callback);
-  client.subscribe("lightMode");
+  //client.subscribe("lightMode");
   client.subscribe("lightAlert");
   client.subscribe("dimming");
-  client.subscribe("colorChange");
+  //client.subscribe("colorChange");
 }
 
 void callback(char* topic, byte* payload, unsigned int length) {
   Serial.print("Message arrived [");
   Serial.print(topic);
-  Serial.print("] ");
+  Serial.println("] ");
   String strPay = "";
   String strTop = topic;
   for (int i = 0; i < length; i++) {
     //Serial.print((char)payload[i]);
     strPay += (char)payload[i];
   }
-  Serial.println(strPay);
+  //  Serial.println(strPay);
   if (strTop == "lightMode") {
-    switchSimple = !switchSimple;
+    //switchSimple = !switchSimple;
   }
-  
-  if (strTop == "lightAlert") {}
+
+  if (strTop == "lightAlert") {
+    sendRequest("aaaa", "aaaaa");
+    parseJson();
+  }
 
   if (strTop == "dimming") {
     if (strPay == "UP")
@@ -44,8 +48,8 @@ void reconnect() {
     Serial.print("Attempting MQTT connection...");
     // Attempt to connect
     // If you do not want to use a username and password, change next line to
-    // if (client.connect("ESP8266Client")) {
-    if (client.connect("FunkyLamp", mqtt_user, mqtt_password)) {
+    if (client.connect("IntelliLamp")) {
+    //if (client.connect("IntelliLamp", mqtt_user, mqtt_password)) {
       Serial.println("connected");
       client.subscribe("lightMode");
       client.subscribe("lightAlert");
