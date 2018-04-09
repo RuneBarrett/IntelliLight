@@ -2,13 +2,15 @@
 #include "FastLED.h"
 #include <ESP8266HTTPClient.h>
 #include <ESP8266WiFi.h>
+#include <ESP8266WiFiMulti.h> 
 #include <PubSubClient.h>
 #include <Counter.h>
 #include <ArduinoJson.h>
 
 //wifi
-char ssid[] = "..."; //SSID of your Wi-Fi router
-char pass[] = "..."; //Password of your Wi-Fi router
+char ssid[] = "EmbedNet2"; //SSID of your Wi-Fi router
+char pass[] = "betonprint"; //Password of your Wi-Fi router
+ESP8266WiFiMulti wifiMulti; 
 
 //mqtt
 #define mqtt_server "192.168.1.175"
@@ -17,7 +19,7 @@ char pass[] = "..."; //Password of your Wi-Fi router
 
 //mqtt client
 WiFiClient espClient;
-PubSubClient client(espClient); 
+PubSubClient client(espClient);
 
 //leds
 #define DATA_PIN D2
@@ -39,7 +41,9 @@ void setup() {
   FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
   Serial.begin(115200);//9600
 
-  connect_wifi();
+  //connect_wifi();
+  wifiMulti.addAP(ssid, pass);
+  connect_wifi_multi();
   connect_mqtt();
   initCounters();
 }
@@ -47,13 +51,16 @@ void setup() {
 void loop() {
   // The main state loop manages solid full lamp light (normal livingroom / party / movie etc.)
   stateLoop();
-  
+
   webserviceLoop(); // Manage webservice changes and input from connected sensors
   sensorLoop();
-  
+
   alertLoop();// The alert loop overwrites some, but not all, led-settings from the main state loop (someone at the door, its raining, train is late etc)
   showLeds(); // Only address the leds if any changes has been made
   utilityLoops(); // Background stuff such as listening for mqtt, running counters, keeping connection up etc.
+
+  if (millis() / 1000 % 20 == 0)
+    Serial.println("hi");
 }
 
 

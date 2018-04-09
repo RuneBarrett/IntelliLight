@@ -6,7 +6,7 @@ void connect_mqtt() {
   client.setServer(mqtt_server, 1883);
   Serial.println(client.connect("IntelliLampTest"));
   client.setCallback(callback);
-  //client.subscribe("lightMode");
+  client.subscribe("lightMode");
   client.subscribe("lightAlert");
   client.subscribe("dimming");
   //client.subscribe("colorChange");
@@ -25,11 +25,11 @@ void callback(char* topic, byte* payload, unsigned int length) {
   //  Serial.println(strPay);
   if (strTop == "lightMode") {
     //switchSimple = !switchSimple;
+    //sendRequest("", "", "");
   }
 
   if (strTop == "lightAlert") {
-    sendRequest("aaaa", "aaaaa");
-    parseJson();
+    sendRequest("", "", "");
   }
 
   if (strTop == "dimming") {

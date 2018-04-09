@@ -1,7 +1,7 @@
 enum State {off, connecting, normalLight, showClock, partyMode};
 enum AlertState {none,door, bus, weather};
 
-State currentState = connecting;
+State currentState = normalLight;
 AlertState currentAState = none;
 
 void stateLoop() {
