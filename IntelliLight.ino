@@ -11,6 +11,8 @@
 #include <Counter.h>
 #include <ArduinoJson.h>
 #include <secrets.h>
+#include <NTPClient.h>
+#include <WiFiUdp.h>
 
 //wifi
 ESP8266WiFiMulti wifiMulti;
@@ -22,9 +24,15 @@ char mqtt_server[] = MQTT_SERVER;
 char mqtt_user[] = MQTT_USER; //user+pass only needed if the mqtt server requires it.
 char mqtt_password[] = MQTT_PASSWORD;
 
+
 //mqtt client
 WiFiClient espClient;
 PubSubClient client(espClient);
+
+//NTP (time)
+WiFiUDP ntpUDP;
+NTPClient timeClient(ntpUDP);
+String formatedTime;
 
 //leds
 #define DATA_PIN D2
@@ -61,9 +69,12 @@ void setup() {
   connect_wifi_multi();
   connect_mqtt();
   initCounters();
+  timeClient.begin();
 }
 
 void loop() {
+  timeClient.update();
+  formatedTime = timeClient.getEpochTime();
   if (fading) {
     fadeToMainColor();
   } else {
