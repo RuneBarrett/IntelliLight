@@ -59,7 +59,7 @@ void loop() {
   stateLoop();
 
   //webserviceLoop(); // Manage webservice changes and input from connected sensors
-  sensorLoop();
+  //sensorLoop();
 
   alertLoop();// The alert loop overwrites some, but not all, led-settings from the main state loop (someone at the door, its raining, train is late etc)
 
