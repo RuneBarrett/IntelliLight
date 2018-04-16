@@ -1,7 +1,7 @@
 /* 
  *  Intelligent Ambient Light System 
- *  !!! SEE README FOR CREDENTIAL SETUP !!! 
- *  MIT licence bla bla legal stuff. Dont be a dick.
+ *  !!! SEE README FOR SETUP !!! 
+ *  MIT licence ... legal stuff. Dont be a duck.
  */
  
 #define FASTLED_ALLOW_INTERRUPTS 0
@@ -18,7 +18,7 @@ ESP8266WiFiMulti wifiMulti;
 char ssid[] = WIFI_UNAME; //SSID of your Wi-Fi router
 char pass[] = WIFI_PASSWORD;//Password of your Wi-Fi router
 
-//mqtt
+//mqtt credentials
 char mqtt_server[] = MQTT_SERVER;
 char mqtt_user[] = MQTT_USER; //user+pass only needed if the mqtt server requires it. 
 char mqtt_password[] = MQTT_PASSWORD;
@@ -45,15 +45,19 @@ const int counterAmount = 10;
 Counter counters[counterAmount];
 
 //Web request timing
-unsigned long timer = 0;
+unsigned long webserviceTimer = 0;
+unsigned long lightTimer = 0;
 
 //Variables for storing weather data
 char* currently_precipType;
 
+boolean first = true;
+
 void setup() {
+  pulseRGB();
+  showLeds();
   FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
   Serial.begin(115200);
-
   wifiMulti.addAP(ssid, pass);
   connect_wifi_multi();
   connect_mqtt();
@@ -62,9 +66,10 @@ void setup() {
 
 void loop() {
   stateLoop();   // The main state loop manages solid full lamp light (normal livingroom / party / movie etc.)
-  webserviceLoop(); // Manage webservice changes and input from connected sensors, used for "alerts"
+  webserviceLoop(); // Manage webservice changes and potentially input from connected sensors, used for "alerts"
   alertLoop();// The alert loop overwrites some, but not all, led-settings from the main state loop (someone at the door, its raining, train is late etc)
 
   showLeds(); // Only address the leds if any changes has been made
   utilityLoops(); // Background stuff such as listening for mqtt, running counters, keeping connection up etc.
+  first = false;
 }

@@ -1,5 +1,5 @@
 enum State {off, connecting, normalLight, showClock, partyMode};
-enum AlertState {none, door, bus, rain};
+enum AlertState {none, door, cloudy, rain};
 
 State currentState = normalLight;
 AlertState currentAState = none;
@@ -21,11 +21,19 @@ void stateLoop() {
 void alertLoop() {
   switch (currentAState) {
     case rain:
-      if (millis() - timer < 4000) //only run this for X seconds
+      if (millis() - lightTimer < 8000) //only run this for X seconds
         rainAlert();
+      break;
+    case cloudy:
+      if (millis() - lightTimer < 8000) //only run this for X seconds
+        cloudAlert();
       break;
     default:
       //pulseRGB();
       break;
   }
+
+  //reset/rerun light timer after X minutes
+  if (millis() - lightTimer > LIGHT_INTERVAL)
+    lightTimer = millis();
 }

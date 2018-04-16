@@ -30,7 +30,10 @@ void setWakeupLights() {}
 
 //A "loading screen"
 void loadingLight() {
-  allLanesRGB(CRGB( 0, counters[4].getVal(), 0), CRGB( counters[4].getVal(), counters[7].getVal(), 0), CRGB( 0, counters[3].getVal(), 0), CRGB( 0, 0, counters[9].getVal()));
+  allLanesRGB(CRGB( 0, counters[4].getVal(), 0),
+              CRGB( counters[4].getVal(), counters[7].getVal(), 0),
+              CRGB( 0, counters[3].getVal(), 0),
+              CRGB( 0, 0, counters[9].getVal()));
 }
 
 // -------------- DYNAMIC LIGHT METHODS ----------------- (used by other light control methods)
@@ -50,7 +53,7 @@ void allLanesRGB(CRGB outer, CRGB outmid, CRGB midin, CRGB inner) {
 
 
 // -------------- UTILITY LIGHT CONTROL METHODS -----------------
-//only adress the leds if the array changed
+//only address the leds if the array changed
 void showLeds() {
   bool changed = false;
   for (int i = 0; i < NUM_LEDS; i++)
@@ -82,7 +85,13 @@ void pulseRGB() {
 void rainAlert() {
   for (int i = 0; i <= 16; i += 4) {
     leds[i] = CRGB( 0, 0, counters[7].getVal());
-    leds[i+2] = CRGB( 0, 0, counters[9].getVal());
+    leds[i + 2] = CRGB( 0, 0, counters[9].getVal());
+  }
+}
+void cloudAlert() {
+  for (int i = 0; i <= 16; i += 4) {
+    leds[i] = CRGB( counters[6].getVal(), counters[7].getVal(), 0);
+    leds[i + 2] = CRGB( counters[8].getVal(), counters[7].getVal(), 0 );
   }
 }
 

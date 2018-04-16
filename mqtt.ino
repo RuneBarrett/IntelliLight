@@ -48,8 +48,8 @@ void reconnect() {
     Serial.print("Attempting MQTT connection...");
     // Attempt to connect
     // If you do not want to use a username and password, change next line to
-    if (client.connect("IntelliLamp")) {
-    //if (client.connect("IntelliLamp", mqtt_user, mqtt_password)) {
+    //if (client.connect("IntelliLamp")) {
+    if (client.connect("IntelliLamp", mqtt_user, mqtt_password)) {
       Serial.println("connected");
       client.subscribe("lightMode");
       client.subscribe("lightAlert");
