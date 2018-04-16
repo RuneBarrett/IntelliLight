@@ -34,8 +34,9 @@ void parseJson() {
   //currently hardcoded for darksky
   JsonObject& currently = root["currently"];
   float currently_temperature = currently["temperature"];
-  const char* currently_precipType = currently["precipType"];
-  if (strstr(currently_precipType, "rain"))
+  const char* currently_precipType = currently["summary"];
+  
+  if (strstr(currently_precipType, "Clear"))
     currentAState = rain;
 }
 

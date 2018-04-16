@@ -42,7 +42,6 @@ unsigned long timer = 0;
 
 //Variables for storing weather data
 char* currently_precipType;
-//bool rain = false;
 
 void setup() {
   FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
@@ -67,7 +66,7 @@ void loop() {
   showLeds(); // Only address the leds if any changes has been made
   utilityLoops(); // Background stuff such as listening for mqtt, running counters, keeping connection up etc.
 
-  if (millis() - timer > 60000) // do something every two seconds)
+  if (millis() - timer > 10000) // do something every 60 sec.
   {
     timer = millis();
     sendRequest("","","");
