@@ -1,4 +1,10 @@
-void webserviceLoop(){}
+void webserviceLoop() {
+  //if (rain) currentAState = rain;
+  //else currentAState = rain;
+  //if (currently_preciptype.indexOf("rain") >= 0)
+
+
+}
 
 void sendRequest(String address, String msg, String fingerPrint) {
   HTTPClient http;
@@ -12,11 +18,11 @@ void sendRequest(String address, String msg, String fingerPrint) {
   parseJson();
 }
 
-void parseJson() { 
+void parseJson() {
   //StaticJsonBuffer<1000> jsonBuffer;
   DynamicJsonBuffer jsonBuffer;
-  char output[response.length()+1]; //buffer for converting c_str to char[] (needed by parser library)
-  response.toCharArray(output, response.length()+1);//convert
+  char output[response.length() + 1]; //buffer for converting c_str to char[] (needed by parser library)
+  response.toCharArray(output, response.length() + 1); //convert
   JsonObject& root = jsonBuffer.parseObject(output);
 
   // Test if parsing succeeds.
@@ -28,6 +34,8 @@ void parseJson() {
   //currently hardcoded for darksky
   JsonObject& currently = root["currently"];
   float currently_temperature = currently["temperature"];
-  Serial.println(currently_temperature);
+  const char* currently_precipType = currently["precipType"];
+  if (strstr(currently_precipType, "rain"))
+    currentAState = rain;
 }
 

@@ -1,5 +1,5 @@
 enum State {off, connecting, normalLight, showClock, partyMode};
-enum AlertState {none,door, bus, weather};
+enum AlertState {none,door, bus, rain};
 
 State currentState = normalLight;
 AlertState currentAState = none;
@@ -19,15 +19,12 @@ void stateLoop() {
 }
 
 void alertLoop() {
-  switch (currentState) {
-    case connecting:
-      loadingLight();
-      break;
-    case normalLight:
-      setMainColor();
+  switch (currentAState) {
+    case rain:
+      weatherAlert();
       break;
     default:
-      pulseRGB();
+      //pulseRGB();
       break;
   }
 }
