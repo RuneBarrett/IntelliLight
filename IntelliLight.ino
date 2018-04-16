@@ -12,6 +12,10 @@
 #include <Counter.h>
 #include <ArduinoJson.h>
 #include <secrets.h>
+#include <NTPClient.h>
+//#include <WiFi.h> // for WiFi shield
+//#include <WiFi101.h> // for WiFi 101 shield or MKR1000
+#include <WiFiUdp.h>
 
 //wifi
 ESP8266WiFiMulti wifiMulti;
@@ -40,6 +44,11 @@ float lati = LATI;
 float longti = LONGTI;
 String response;
 
+//NTP 
+WiFiUDP ntpUDP;
+NTPClient timeClient(ntpUDP);
+String formatedTime;
+
 //An amount of counter objects that run between 0 and 255 in different speeds. Defined in the Counter.h library
 const int counterAmount = 10;
 Counter counters[counterAmount];
@@ -58,9 +67,13 @@ void setup() {
   connect_wifi_multi();
   connect_mqtt();
   initCounters();
+  timeClient.begin();
 }
 
 void loop() {
+  timeClient.update();
+  //Serial.println(timeClient.getFormattedTime());
+  formatedTime = timeClient.getFormattedTime();
   stateLoop();   // The main state loop manages solid full lamp light (normal livingroom / party / movie etc.)
   webserviceLoop(); // Manage webservice changes and input from connected sensors, used for "alerts"
   alertLoop();// The alert loop overwrites some, but not all, led-settings from the main state loop (someone at the door, its raining, train is late etc)

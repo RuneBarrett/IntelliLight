@@ -9,6 +9,7 @@ void webserviceLoop() {
 void sendRequest(String address, String msg, String fingerPrint) {
   HTTPClient http;
   address = "https://api.darksky.net/forecast/"+dark_key+"/"+lati+","+longti+"?exclude=minutely,hourly,daily,alerts,flags&units=si";
+  //address = "https://api.darksky.net/forecast/"+dark_key+"/"+lati+","+longti+formatedTime+"?exclude=minutely,hourly,daily,flags&units=si";
   http.begin(address, "C0:CD:F8:5C:DB:F3:52:0D:AF:79:75:EA:61:2A:95:8A:49:07:DC:33"); //darksky's https fingerprint (needed because of https and the used http library)
   int httpCode = http.GET();
   response = http.getString(); //get response object
