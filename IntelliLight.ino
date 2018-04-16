@@ -1,9 +1,8 @@
-/* 
- *  Intelligent Ambient Light System 
- *  !!! SEE README FOR SETUP !!! 
- *  MIT licence ... legal stuff. Dont be a duck.
- */
- 
+/*
+    Intelligent Ambient Light System
+    !!! SEE README FOR SETUP !!!
+*/
+
 #define FASTLED_ALLOW_INTERRUPTS 0
 #include "FastLED.h"
 #include <ESP8266HTTPClient.h>
@@ -20,7 +19,7 @@ char pass[] = WIFI_PASSWORD;//Password of your Wi-Fi router
 
 //mqtt credentials
 char mqtt_server[] = MQTT_SERVER;
-char mqtt_user[] = MQTT_USER; //user+pass only needed if the mqtt server requires it. 
+char mqtt_user[] = MQTT_USER; //user+pass only needed if the mqtt server requires it.
 char mqtt_password[] = MQTT_PASSWORD;
 
 //mqtt client
@@ -44,18 +43,18 @@ String response;
 const int counterAmount = 10;
 Counter counters[counterAmount];
 
-//Web request timing
-unsigned long webserviceTimer = 0;
+//Timers
+unsigned long webserviceTimer = WEB_REQ_INTERVAL;
 unsigned long lightTimer = 0;
+unsigned long fadeTimer = 0;
 
 //Variables for storing weather data
 char* currently_precipType;
 
-boolean first = true;
+boolean fading = false;
+
 
 void setup() {
-  pulseRGB();
-  showLeds();
   FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
   Serial.begin(115200);
   wifiMulti.addAP(ssid, pass);
@@ -65,11 +64,13 @@ void setup() {
 }
 
 void loop() {
-  stateLoop();   // The main state loop manages solid full lamp light (normal livingroom / party / movie etc.)
-  webserviceLoop(); // Manage webservice changes and potentially input from connected sensors, used for "alerts"
-  alertLoop();// The alert loop overwrites some, but not all, led-settings from the main state loop (someone at the door, its raining, train is late etc)
-
+  if (fading) {
+    fadeToMainColor();
+  } else {
+    stateLoop();   // The main state loop manages solid full lamp light (normal livingroom / party / movie etc.)
+    webserviceLoop(); // Manage webservice changes and potentially input from connected sensors, used for "alerts"
+    alertLoop();// The alert loop overwrites some, but not all, led-settings from the main state loop (someone at the door, its raining, train is late etc)
+  }
   showLeds(); // Only address the leds if any changes has been made
   utilityLoops(); // Background stuff such as listening for mqtt, running counters, keeping connection up etc.
-  first = false;
 }

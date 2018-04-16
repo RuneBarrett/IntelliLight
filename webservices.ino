@@ -1,6 +1,6 @@
 void webserviceLoop() {
   //send a webrequest at a set time interval
-  if (millis() - webserviceTimer > WEB_REQ_INTERVAL || first) //(60000=> 1 minute => 900000 => 15 minutes)
+  if (millis() - webserviceTimer > WEB_REQ_INTERVAL) 
   {
     webserviceTimer = millis();
     sendRequest("", "", "");
@@ -31,7 +31,6 @@ void parseJson() {
     return;
   }
 
-  //currently hardcoded for darksky
   JsonObject& currently = root["currently"];
   determineAlertState(currently["summary"]);
   //float currently_temperature = currently["temperature"];
