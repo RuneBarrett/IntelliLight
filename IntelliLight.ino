@@ -65,12 +65,6 @@ void loop() {
 
   showLeds(); // Only address the leds if any changes has been made
   utilityLoops(); // Background stuff such as listening for mqtt, running counters, keeping connection up etc.
-
-  if (millis() - timer > 10000) // do something every 60 sec.
-  {
-    timer = millis();
-    sendRequest("","","");
-  }
 }
 
 

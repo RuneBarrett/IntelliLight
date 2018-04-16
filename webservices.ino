@@ -1,9 +1,9 @@
-void webserviceLoop() {
-  //if (rain) currentAState = rain;
-  //else currentAState = rain;
-  //if (currently_preciptype.indexOf("rain") >= 0)
-
-
+void webserviceLoop() {  
+  if (millis() - timer > 10000) // send a webrequest at a set time interval
+  {
+    timer = millis();
+    sendRequest("","","");
+  }
 }
 
 void sendRequest(String address, String msg, String fingerPrint) {

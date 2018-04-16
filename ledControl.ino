@@ -80,7 +80,7 @@ void pulseRGB() {
 }
 
 void weatherAlert() {
-  if(millis() - timer < 5000)
+  if(millis() - timer < 4000)
     for (int i = 0; i <= 16; i += 4) {
       leds[i] = CRGB( 0, 0, counters[7].getVal()*0.7);
       leds[i+2] = CRGB( 0, 0, counters[9].getVal()*0.7);
