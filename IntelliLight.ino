@@ -1,14 +1,3 @@
-<<<<<<< HEAD
-=======
-/*
-    Intelligent Ambient Light Information System
-    !!! SEE README FOR SETUP !!!
-
-    This is the main program file. Contains all global variables, the setup method and the main loop.
-    The actual functionality is implemented in their respective files.
-*/
-
->>>>>>> 1e065b49cec9a375a53a7d34643fa57215e8759c
 #define FASTLED_ALLOW_INTERRUPTS 0
 #include "FastLED.h"
 #include <ESP8266HTTPClient.h>
@@ -21,8 +10,11 @@
 #include <WiFiUdp.h>
 
 /*
-    Intelligent Ambient Light System
+    Intelligent Ambient Light Information System
     !!! SEE README FOR SETUP !!!
+
+    This is the main program file. Contains all global variables, the setup method and the main loop.
+    The actual functionality is implemented in their respective files.
 */
 
 //wifi
