@@ -1,3 +1,7 @@
+/*
+ * Code for setting up and using MQTT.
+ */
+
 //publish:
 //Serial.println(client.publish("cmnd/sonoff_ceiling/power", "OFF"));
 

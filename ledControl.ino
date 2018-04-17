@@ -1,3 +1,6 @@
+/*
+ * Holds methods that address the LED's in a general way.
+ */
 // -------------- STATIC LIGHT MODES -----------------
 //Set the lamp to normal light
 void setMainColor() {

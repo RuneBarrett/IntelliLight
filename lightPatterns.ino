@@ -1,3 +1,6 @@
+/*
+ * Holds the actual light patterns used for different states.
+ */
 //A "loading screen"
 void loadingLight() {
   allLanesRGB(CRGB( 0, counters[4].getVal(), 0),

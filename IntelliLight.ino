@@ -1,6 +1,9 @@
 /*
-    Intelligent Ambient Light System
+    Intelligent Ambient Light Information System
     !!! SEE README FOR SETUP !!!
+
+    This is the main program file. Contains all global variables, the setup method and the main loop.
+    The actual functionality is implemented in their respective files.
 */
 
 #define FASTLED_ALLOW_INTERRUPTS 0

@@ -1,3 +1,6 @@
+/*
+ * Defines our basic state machines. One for the "main" light and one for the "alert" state.
+ */
 enum State {off, connecting, normalLight, showClock, partyMode};
 enum AlertState {none, door, cloudy, rain};
 
