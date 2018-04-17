@@ -31,8 +31,10 @@ void clearPattern() {
 }
 
 void temperaturePattern() {
+  if (temperature > TEMP_WARM) temperature = TEMP_WARM;
+  if (temperature < TEMP_COLD) temperature = TEMP_COLD;
   for (int i = 20; i <= 32; i += 3) {
-    leds[i+1] = CRGB(map(temperature, TEMP_COLD, TEMP_WARM, 0, 255), 0, 255-map(temperature, TEMP_COLD, TEMP_WARM, 0, 255));
+    leds[i + 1] = CRGB(map(temperature, TEMP_COLD, TEMP_WARM, 0, 255), 0, 255 - map(temperature, TEMP_COLD, TEMP_WARM, 0, 255));
     //leds[i + 2] = CRGB(255, 0, 0);
   }
 }
