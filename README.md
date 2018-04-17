@@ -31,14 +31,16 @@ This file needs to be placed in your arduino library, in a folder called *secret
 #define LATI 55.414403// change to match your location
 #define LONGTI 12.149739
 
-// -------- Timers -------- (Changes are optional)
+// -------- Timers --------
 //Webrequest
-#define WEB_REQ_INTERVAL 600     //How often to collect new weather information (max 1000 free a day) - Defined in seconds
+#define WEB_REQ_INTERVAL 900     //How often to collect new weather information (max 1000 free a day) - Defined in seconds (900 -> 15 minutes)
 
 //Weather
 #define FORECAST_TIME 60         //How long into the future should we look - Defined in minutes.
 #define WEATHER_INTERVAL 20      //How often to go into weather mode - Defined in seconds
 #define SHOW_WEATHER_TIME 10     //How long time the weather mode shows - Defined in seconds
+#define TEMP_WARM 22             //How many degrees celcius till you definite dont need a jacket to go outside
+#define TEMP_COLD 8              //How many degrees celcius till you definite do need a jacket to go outside
 ```
 The essential information you need to fill out is **wifi credentials**, **mqtt host address** and your **darksky key** (obtained from https://darksky.net/dev). The rest can be used with default values.
 ### Required libraries
