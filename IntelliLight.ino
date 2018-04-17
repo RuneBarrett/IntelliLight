@@ -14,7 +14,8 @@
     !!! SEE README FOR SETUP !!!
 
     This is the main program file. Contains all global variables, the setup method and the main loop.
-    The actual functionality is implemented in their respective files.
+    Arduino treats all files as if they were one - thus, the file separation based on respective responsibilities and is purely for improving readability. 
+    All global variables are defined in this main file but can be referenced anywhere due to the single file treatment mentioned above. 
 */
 
 //wifi
@@ -35,7 +36,7 @@ PubSubClient client(espClient);
 //NTP (time)
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP);
-String formatedTime;
+String unixTime;
 
 //leds
 #define DATA_PIN D2
@@ -55,9 +56,9 @@ const int counterAmount = 10;
 Counter counters[counterAmount];
 
 //Timers
-unsigned long webserviceTimer = WEB_REQ_INTERVAL * 1000;
-unsigned long lightTimer = LIGHT_INTERVAL * 1000;
-unsigned long fadeTimer = 0;
+unsigned long webserviceTimer = WEB_REQ_INTERVAL * 1000 * 0.9;
+unsigned long lightTimer = LIGHT_INTERVAL * 1000 ;
+unsigned long fadeTimer = FADE_TIME * 1000;
 
 //Variables for storing weather data
 char* currently_precipType;
@@ -73,11 +74,12 @@ void setup() {
   connect_mqtt();
   initCounters();
   timeClient.begin();
+  timeClient.update();
 }
 
 void loop() {
-  //timeClient.update();
-  formatedTime = 1523896372;//timeClient.getEpochTime();
+  timeClient.update(); //Collects and updates the current time from an NTP server at set time intervals
+
   //if (fadeTimer > millis()) {
   //fadeToMainColor();
   //Serial.println("fadeTimer");

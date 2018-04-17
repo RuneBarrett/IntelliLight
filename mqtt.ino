@@ -1,6 +1,35 @@
 /*
- * Code for setting up and using MQTT.
- */
+   Code for setting up and using MQTT.
+*/
+
+//This method is called whenever anything is published to one of the subscribed topics. The "payload" is the message/value, "length" is the length of the payload array.
+void callback(char* topic, byte* payload, unsigned int length) {
+  Serial.print("Message arrived ["); Serial.print(topic); Serial.println("] ");
+  String strPay = "";
+  String strTop = topic;
+  for (int i = 0; i < length; i++) {
+    //Serial.print((char)payload[i]);
+    strPay += (char)payload[i];
+  }
+
+  if (strTop == "lightMode") {
+    //switchSimple = !switchSimple;
+    //sendRequest("", "", "");
+  }
+
+  if (strTop == "doorAlert") {
+    //sendRequest();
+  }
+
+  if (strTop == "dimming") {
+    if (strPay == "UP")
+      dimMainHSV(20);
+    else
+      dimMainHSV(-20);
+  }
+
+  if (strTop == "colorChange") {}
+}
 
 //publish:
 //Serial.println(client.publish("cmnd/sonoff_ceiling/power", "OFF"));
@@ -14,36 +43,6 @@ void connect_mqtt() {
   client.subscribe("lightAlert");
   client.subscribe("dimming");
   //client.subscribe("colorChange");
-}
-
-void callback(char* topic, byte* payload, unsigned int length) {
-  Serial.print("Message arrived [");
-  Serial.print(topic);
-  Serial.println("] ");
-  String strPay = "";
-  String strTop = topic;
-  for (int i = 0; i < length; i++) {
-    //Serial.print((char)payload[i]);
-    strPay += (char)payload[i];
-  }
-  //  Serial.println(strPay);
-  if (strTop == "lightMode") {
-    //switchSimple = !switchSimple;
-    //sendRequest("", "", "");
-  }
-
-  if (strTop == "lightAlert") {
-    sendRequest("", "", "");
-  }
-
-  if (strTop == "dimming") {
-    if (strPay == "UP")
-      dimMainHSV(20);
-    else
-      dimMainHSV(-20);
-  }
-
-  if (strTop == "colorChange") {}
 }
 
 void reconnect() {
