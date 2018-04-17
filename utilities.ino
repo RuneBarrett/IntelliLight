@@ -1,3 +1,7 @@
+/*
+ * Different utilities used for setup and maintaining background tasks.
+ */
+
 void utilityLoops() {
   //counter loops
   for (int i = 0; i < 10; i++)

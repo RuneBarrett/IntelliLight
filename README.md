@@ -1,6 +1,22 @@
 IntelliLight
+======
+An intelligent lighting information system.
+------
+Description will arrive shortly
 
+Setup Instructions
+------
+### Needed parts and software
+1. The Arduino IDE with the ESP8266 addon. Install Arduino and follow these steps if you dont have it already: https://learn.sparkfun.com/tutorials/esp8266-thing-hookup-guide/installing-the-esp8266-arduino-addon
 
+2. An ESP8266 (any should do)
+3. A bunch of adressable LED's compatible with the FastLED library (most lightpatterns are currently hardcoded to 46 leds organized in rows of 20, 16, 9, 1)
+4. Something to stick your LED's on. (Inside an old lamp, the backside of a screen, the inside of your motorcycle helmet(not recommended) or wherever you would like them.)
+
+### Creating *secrets.h*
+In order to use this system you need to add and fill in the following content to a file called *secrets.h*.
+This file needs to be placed in your arduino library, in a folder called *secrets*. (You arduino library will usually be placed in *../Documents/Arduino/libraries*)
+```c
 #define WIFI_PASSWORD "<pwd>"
 #define WIFI_UNAME "<uid>"
 
@@ -14,3 +30,22 @@ IntelliLight
 
 #define WEB_REQ_INTERVAL 600000
 #define LIGHT_INTERVAL 150000
+```
+The essential information you need to fill out is **wifi credentials**, **mqtt host address** and your **darksky key** (obtained from https://darksky.net/dev). The rest can be used with default values. 
+### Required libraries
+These libraries can be installed using the *Arduino Library Manager*.
+1. **FastLED** - for contolling the LED's
+2. **ESP8266HTTPClient** - For sending web requests
+3. **PubSubClient** - for MQTT publishing/subscribing
+4. **ArduinoJson** - for working with json responses from webservices
+5. **NTPClient** - For getting accurate time from an NTP server
+6. **WiFiUdp** - For sending UDP requests
+
+The following libraries are found elsewhere, or created by yourself.
+
+1. **Counter** - Fluctuating counters used for easially making complex LED patterns
+  * Download ZIP from this link, place it in your arduino libraries folder and use the *extract here* option (not *extract to*): https://runebarrett.github.io/DownGit/#/home?repo=https://github.com/RuneBarrett/Fluctuating-Counters/tree/master&paths=Counter.h|Counter.cpp&subfolder=Counter
+- Note: You can delete the ZIP file after the above step.
+
+2. **Secrets** - Holds your credentials and settings
+  * Created by you (see the *creating secrets.h* section in *README.md*)
