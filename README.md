@@ -34,6 +34,8 @@ These can be installed using the *Arduino Library Manager*.
 The following are found elsewhere, or created by yourself.
 
 1. **Counter** - Fluctuating counters used for easially making complex LED patterns
-  * Download ZIP from this link, place it in your arduino libraries folder and use the *extract here* option (not *extract to*). You can delete the ZIP file after: https://runebarrett.github.io/DownGit/#/home?repo=https://github.com/RuneBarrett/Fluctuating-Counters/tree/master&paths=Counter.h|Counter.cpp&subfolder=Counter
+  * Download ZIP from this link, place it in your arduino libraries folder and use the *extract here* option (not *extract to*): https://runebarrett.github.io/DownGit/#/home?repo=https://github.com/RuneBarrett/Fluctuating-Counters/tree/master&paths=Counter.h|Counter.cpp&subfolder=Counter
+- Note: You can delete the ZIP file after the above step.
+
 2. **Secrets** - Holds your credentials and settings
-  * Created by you (see README.md)
+  * Created by you (see the *creating secrets.h* section in *README.md*)
