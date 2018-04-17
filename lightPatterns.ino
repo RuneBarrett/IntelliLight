@@ -1,6 +1,6 @@
 /*
- * Holds the actual light patterns used for different states.
- */
+   Holds the actual light patterns used for different states.
+*/
 //A "loading screen"
 void loadingLight() {
   allLanesRGB(CRGB( 0, counters[4].getVal(), 0),
@@ -15,9 +15,24 @@ void rainPattern() {
     leds[i + 2] = CRGB( 0, 0, counters[9].getVal());
   }
 }
+
 void cloudPattern() {
   for (int i = 0; i <= 16; i += 4) {
     leds[i + 1] = CRGB( 0, counters[5].getVal(), counters[6].getVal());
     leds[i + 2] = CRGB( 0, counters[7].getVal(), counters[8].getVal() );
+  }
+}
+
+void clearPattern() {
+  for (int i = 0; i <= 16; i += 4) {
+    leds[i + 1] = CRGB( counters[4].getVal(), counters[5].getVal(), 0);
+    leds[i + 2] = CRGB( counters[6].getVal(), counters[7].getVal(), 0 );
+  }
+}
+
+void temperaturePattern() {
+  for (int i = 20; i <= 32; i += 3) {
+    leds[i+1] = CRGB(map(temperature, TEMP_COLD, TEMP_WARM, 0, 255), 0, 255-map(temperature, TEMP_COLD, TEMP_WARM, 0, 255));
+    //leds[i + 2] = CRGB(255, 0, 0);
   }
 }
