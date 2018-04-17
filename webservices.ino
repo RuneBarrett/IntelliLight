@@ -1,6 +1,6 @@
 void webserviceLoop() {
   //send a webrequest at a set time interval
-  if (millis() - webserviceTimer > WEB_REQ_INTERVAL)
+  if (millis() - webserviceTimer > WEB_REQ_INTERVAL*1000)
   {
     webserviceTimer = millis();
     sendRequest("", "", "");

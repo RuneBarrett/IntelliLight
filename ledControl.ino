@@ -53,10 +53,16 @@ void showLeds() {
 }
 
 void fadeToMainColor() {
-  return;
+  return; //not working as intended
+  CRGB temp = CHSV(mainColor);
+  delay(50);
   for (int i = 0; i < NUM_LEDS; i = i + 1)
   {
-    
+    if (leds[i].red > temp.red)
+      leds[i].red--;
+    else if (leds[i].red < temp.red)
+      leds[i].red++;
+    //else fadeTimer = millis();  
   }
 }
 

@@ -21,11 +21,11 @@ void stateLoop() {
 void alertLoop() {
   switch (currentAState) {
     case rain:
-      if (millis() - lightTimer < 60000) //only run this for X seconds
+      if (millis() - lightTimer < ALERT_TIME * 1000) //only run this for ALERT_TIME seconds
         rainAlert();
       break;
     case cloudy:
-      if (millis() - lightTimer < 60000) //only run this for X seconds
+      if (millis() - lightTimer < ALERT_TIME * 1000) 
         cloudAlert();
       break;
     default:
@@ -34,6 +34,6 @@ void alertLoop() {
   }
 
   //reset/rerun light timer after X minutes
-  if (millis() - lightTimer > LIGHT_INTERVAL)
+  if (millis() - lightTimer > LIGHT_INTERVAL * 1000)
     lightTimer = millis();
 }

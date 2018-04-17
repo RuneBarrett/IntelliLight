@@ -1,8 +1,3 @@
-/*
-    Intelligent Ambient Light System
-    !!! SEE README FOR SETUP !!!
-*/
-
 #define FASTLED_ALLOW_INTERRUPTS 0
 #include "FastLED.h"
 #include <ESP8266HTTPClient.h>
@@ -13,6 +8,11 @@
 #include <secrets.h>
 #include <NTPClient.h>
 #include <WiFiUdp.h>
+
+/*
+    Intelligent Ambient Light System
+    !!! SEE README FOR SETUP !!!
+*/
 
 //wifi
 ESP8266WiFiMulti wifiMulti;
@@ -39,8 +39,8 @@ String formatedTime;
 #define NUM_LEDS 46
 CRGB leds[NUM_LEDS];
 CRGB last_leds[NUM_LEDS];
-CHSV mainColor(180, 100, 160);
-
+//CHSV mainColor(180, 100, 160);255, 241, 224
+CHSV mainColor(0, 30, 255);
 //webservices
 String dark_key = DARK_KEY;
 float lati = LATI;
@@ -52,8 +52,8 @@ const int counterAmount = 10;
 Counter counters[counterAmount];
 
 //Timers
-unsigned long webserviceTimer = WEB_REQ_INTERVAL;
-unsigned long lightTimer = 0;
+unsigned long webserviceTimer = WEB_REQ_INTERVAL * 1000;
+unsigned long lightTimer = LIGHT_INTERVAL * 1000;
 unsigned long fadeTimer = 0;
 
 //Variables for storing weather data
@@ -73,15 +73,16 @@ void setup() {
 }
 
 void loop() {
-  timeClient.update();
-  formatedTime = timeClient.getEpochTime();
-  if (fading) {
-    fadeToMainColor();
-  } else {
-    stateLoop();   // The main state loop manages solid full lamp light (normal livingroom / party / movie etc.)
-    webserviceLoop(); // Manage webservice changes and potentially input from connected sensors, used for "alerts"
-    alertLoop();// The alert loop overwrites some, but not all, led-settings from the main state loop (someone at the door, its raining, train is late etc)
-  }
+  //timeClient.update();
+  formatedTime = 1523896372;//timeClient.getEpochTime();
+  //if (fadeTimer > millis()) {
+  //fadeToMainColor();
+  //Serial.println("fadeTimer");
+  //} else {
+  stateLoop();   // The main state loop manages solid full lamp light (normal livingroom / party / movie etc.)
+  webserviceLoop(); // Manage webservice changes and potentially input from connected sensors, used for "alerts"
+  alertLoop();// The alert loop overwrites some, but not all, led-settings from the main state loop (someone at the door, its raining, train is late etc)
+  //}
   showLeds(); // Only address the leds if any changes has been made
   utilityLoops(); // Background stuff such as listening for mqtt, running counters, keeping connection up etc.
 }
