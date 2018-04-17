@@ -1,6 +1,9 @@
 IntelliLight
-
-
+======
+### An intelligent lighting information system.
+In order to use this system you need to add and fill in the following content to a file called *secrets.h*.
+This file needs to be placed in your arduino library, in a folder called *secrets*. (You arduino library will usually be placed in *../documents/Arduino/..*)
+```c
 #define WIFI_PASSWORD "<pwd>"
 #define WIFI_UNAME "<uid>"
 
@@ -14,3 +17,5 @@ IntelliLight
 
 #define WEB_REQ_INTERVAL 600000
 #define LIGHT_INTERVAL 150000
+```
+The essential information is wifi credentials, mqtt host adress and your darksky key (obtained from darksky.com). The rest can be used with default values. 
