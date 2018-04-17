@@ -7,14 +7,16 @@ void webserviceLoop() {
   if (millis() - webserviceTimer > WEB_REQ_INTERVAL * 1000)
   {
     webserviceTimer = millis();
+    //Fetch the time and add FORECAST_TIME to it
+    unixTime = timeClient.getEpochTime(); 
+    unixTime = unixTime.toInt() + (FORECAST_TIME * 60 * 1000); //1523896372 - returns cloudy for testing
+    Serial.println(unixTime);
     sendRequest();
-    //Fetch the time and add FORECAST_TIME to it 
-    unixTime = timeClient.getEpochTime()+(FORECAST_TIME*60*1000); //1523896372 - returns cloudy
-   
+    parseJson();
   }
 }
 
-void sendRequest() { //String address, String msg, String fingerPrint
+void sendRequest() { //String address, String fingerPrint
   HTTPClient http;
   //address = "https://api.darksky.net/forecast/" + dark_key + "/" + lati + "," + longti + "?exclude=minutely,hourly,daily,alerts,flags&units=si";
   String address = "https://api.darksky.net/forecast/" + dark_key + "/" + lati + "," + longti + "," + unixTime + "?exclude=minutely,hourly,daily,flags&units=si";
@@ -25,7 +27,6 @@ void sendRequest() { //String address, String msg, String fingerPrint
   Serial.println(response);
   Serial.println(unixTime);
   http.end();
-  parseJson();
 }
 
 void parseJson() {
@@ -42,11 +43,6 @@ void parseJson() {
 
   JsonObject& currently = root["currently"];
   determineAlertState(currently["summary"]);
-  //float currently_temperature = currently["temperature"];
-  //const char* currently_summary = currently["summary"];
-
-  //if (strstr(currently_summary, "Cloudy"))
-  //  currentAState = rain;
 }
 
 void determineAlertState(String summary) {

@@ -5,7 +5,7 @@
 //Set the lamp to normal light
 void setMainColor() {
   CHSV lessBright = mainColor;
-  lessBright.val = lessBright.val - lessBright.val * 0.3;
+  lessBright.val = lessBright.val - lessBright.val * 0.4;
   for (int i = 0; i < NUM_LEDS; i++)
   {
     if (i < 20)

@@ -56,7 +56,7 @@ const int counterAmount = 10;
 Counter counters[counterAmount];
 
 //Timers
-unsigned long webserviceTimer = WEB_REQ_INTERVAL * 1000 * 0.9;
+unsigned long webserviceTimer = WEB_REQ_INTERVAL * 1000;
 unsigned long lightTimer = LIGHT_INTERVAL * 1000 ;
 unsigned long fadeTimer = FADE_TIME * 1000;
 
@@ -74,20 +74,16 @@ void setup() {
   connect_mqtt();
   initCounters();
   timeClient.begin();
-  timeClient.update();
+  timeClient.update(); //calling an update here seems to provide the right time for the first request sent when the program starts
 }
 
 void loop() {
   timeClient.update(); //Collects and updates the current time from an NTP server at set time intervals
 
-  //if (fadeTimer > millis()) {
-  //fadeToMainColor();
-  //Serial.println("fadeTimer");
-  //} else {
   stateLoop();   // The main state loop manages solid full lamp light (normal livingroom / party / movie etc.)
   webserviceLoop(); // Manage webservice changes and potentially input from connected sensors, used for "alerts"
   alertLoop();// The alert loop overwrites some, but not all, led-settings from the main state loop (someone at the door, its raining, train is late etc)
-  //}
+
   showLeds(); // Only address the leds if any changes has been made
   utilityLoops(); // Background stuff such as listening for mqtt, running counters, keeping connection up etc.
 }
