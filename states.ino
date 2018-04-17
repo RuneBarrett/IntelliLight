@@ -1,10 +1,12 @@
 /*
- * Defines our basic state machines. One for the "main" light and one for the "alert" state.
+ * Defines our basic state machines. One for the "main" light, one for the "weather" and one for the "alert" states.
  */
 enum State {off, connecting, normalLight, showClock, partyMode};
-enum AlertState {none, door, cloudy, rain};
+enum WeatherState {tbd, cloudy, rain};
+enum AlertState {none, door, iss};
 
 State currentState = normalLight;
+WeatherState currentWState = tbd;
 AlertState currentAState = none;
 
 void stateLoop() {
@@ -21,15 +23,15 @@ void stateLoop() {
   }
 }
 
-void alertLoop() {
-  switch (currentAState) {
+void weatherLoop() {
+  switch (currentWState) {
     case rain:
-      if (millis() - lightTimer < ALERT_TIME * 1000) //only run this for ALERT_TIME seconds
-        rainAlert();
+      if (millis() - lightTimer < SHOW_WEATHER_TIME * 1000) //only run this for SHOW_WEATHER_TIME seconds
+        rainPattern();
       break;
     case cloudy:
-      if (millis() - lightTimer < ALERT_TIME * 1000) 
-        cloudAlert();
+      if (millis() - lightTimer < SHOW_WEATHER_TIME * 1000) 
+        cloudPattern();
       break;
     default:
       //pulseRGB();
@@ -37,6 +39,17 @@ void alertLoop() {
   }
 
   //reset/rerun light timer after X minutes
-  if (millis() - lightTimer > LIGHT_INTERVAL * 1000)
+  if (millis() - lightTimer > WEATHER_INTERVAL * 1000)
     lightTimer = millis();
+}
+
+void alertLoop() {
+  switch (currentAState) {
+    case door:
+      break;
+    case iss:
+      break;
+    default:
+      break;
+  }
 }

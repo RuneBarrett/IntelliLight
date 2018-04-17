@@ -41,17 +41,18 @@ void parseJson() {
     return;
   }
 
+  //Pick the needed values and call the weather state selector
   JsonObject& currently = root["currently"];
-  determineAlertState(currently["summary"]);
+  determineWeatherState(currently["summary"]);
 }
 
-void determineAlertState(String summary) {
+void determineWeatherState(String summary) {
   Serial.println(summary);
   if (summary.indexOf("Rain") > 0) {
-    currentAState = rain; Serial.println("rainy");
+    currentWState = rain; Serial.println("rainy");
   }
   if (summary.indexOf("Cloudy") > 0) {
-    currentAState = cloudy; Serial.println("cloudy");
+    currentWState = cloudy; Serial.println("cloudy");
   }
 }
 

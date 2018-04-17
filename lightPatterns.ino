@@ -9,13 +9,13 @@ void loadingLight() {
               CRGB( 0, 0, counters[9].getVal()));
 }
 
-void rainAlert() {
+void rainPattern() {
   for (int i = 0; i <= 16; i += 4) {
     leds[i] = CRGB( 0, 0, counters[7].getVal());
     leds[i + 2] = CRGB( 0, 0, counters[9].getVal());
   }
 }
-void cloudAlert() {
+void cloudPattern() {
   for (int i = 0; i <= 16; i += 4) {
     leds[i + 1] = CRGB( 0, counters[5].getVal(), counters[6].getVal());
     leds[i + 2] = CRGB( 0, counters[7].getVal(), counters[8].getVal() );
