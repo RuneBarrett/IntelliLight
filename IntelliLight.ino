@@ -43,8 +43,8 @@ String unixTime;
 #define NUM_LEDS 46
 CRGB leds[NUM_LEDS];
 CRGB last_leds[NUM_LEDS];
-//CHSV mainColor(180, 100, 160);255, 241, 224
-CHSV mainColor(0, 30, 255);
+CHSV mainColor(180, 100, 160);//255, 241, 224
+//CHSV mainColor(0, 30, 255);
 //webservices
 String dark_key = DARK_KEY;
 float lati = LATI;
@@ -56,14 +56,21 @@ const int counterAmount = 10;
 Counter counters[counterAmount];
 
 //Timers
-unsigned long webserviceTimer = WEB_REQ_INTERVAL * 1000;
+unsigned long webserviceTimer = WEB_REQ_INTERVAL * 900;
 unsigned long lightTimer = WEATHER_INTERVAL * 1000 ;
 //unsigned long fadeTimer = FADE_TIME * 1000;
 
 //Variables for storing weather data
-char* currently_precipType;
+float temperature;
+String weatherType; 
 
-//boolean fading = false;
+//State variables
+enum State {off, connecting, normalLight, showClock, partyMode};
+enum WeatherState {tbd, cloudy, rain, clearW};
+enum AlertState {none, door, iss};
+State currentState = normalLight;
+WeatherState currentWState = tbd;
+AlertState currentAState = none;
 
 
 void setup() {

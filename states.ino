@@ -1,13 +1,7 @@
 /*
- * Defines our basic state machines. One for the "main" light, one for the "weather" and one for the "alert" states.
- */
-enum State {off, connecting, normalLight, showClock, partyMode};
-enum WeatherState {tbd, cloudy, rain};
-enum AlertState {none, door, iss};
+   Defines our basic state machines. One for the "main" light, one for the "weather" and one for the "alert" states.
+*/
 
-State currentState = normalLight;
-WeatherState currentWState = tbd;
-AlertState currentAState = none;
 
 void stateLoop() {
   switch (currentState) {
@@ -17,6 +11,9 @@ void stateLoop() {
     case normalLight:
       setMainColor();
       break;
+    case partyMode:
+      pulseRGB();
+      break;
     default:
       //pulseRGB();
       break;
@@ -24,20 +21,24 @@ void stateLoop() {
 }
 
 void weatherLoop() {
-  switch (currentWState) {
-    case rain:
-      if (millis() - lightTimer < SHOW_WEATHER_TIME * 1000) //only run this for SHOW_WEATHER_TIME seconds
+  if (millis() - lightTimer < SHOW_WEATHER_TIME * 1000) { //only run this for SHOW_WEATHER_TIME seconds
+    switch (currentWState) {
+      case rain:
         rainPattern();
-      break;
-    case cloudy:
-      if (millis() - lightTimer < SHOW_WEATHER_TIME * 1000) 
+        break;
+      case cloudy:
         cloudPattern();
-      break;
-    default:
-      //pulseRGB();
-      break;
+        break;
+      case clearW:
+        clearPattern();
+        break;
+      default:
+        //pulseRGB();
+        break;
+    }
+    //Show temperature
+    temperaturePattern();
   }
-
   //reset/rerun light timer after X minutes
   if (millis() - lightTimer > WEATHER_INTERVAL * 1000)
     lightTimer = millis();

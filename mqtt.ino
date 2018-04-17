@@ -12,16 +12,19 @@ void callback(char* topic, byte* payload, unsigned int length) {
     strPay += (char)payload[i];
   }
 
-  if (strTop == "lightMode") {
-    //switchSimple = !switchSimple;
-    //sendRequest("", "", "");
+  if (strTop == "intelliLight/lightMode" && strPay == "party") {
+    currentState = partyMode;
+  }
+
+  if (strTop == "intelliLight/lightMode" && strPay == "normal") {
+    currentState = normalLight;
   }
 
   if (strTop == "doorAlert") {
     //sendRequest();
   }
 
-  if (strTop == "dimming") {
+  if (strTop == "intelliLight/dimming") {
     if (strPay == "UP")
       dimMainHSV(20);
     else
@@ -37,27 +40,24 @@ void callback(char* topic, byte* payload, unsigned int length) {
 void connect_mqtt() {
   Serial.print("Connecting MQTT ... succes = ");
   client.setServer(mqtt_server, 1883);
-  Serial.println(client.connect("IntelliLampTest"));
+  Serial.println(client.connect("IntelliLamp", mqtt_user, mqtt_password));
   client.setCallback(callback);
-  client.subscribe("lightMode");
-  client.subscribe("lightAlert");
-  client.subscribe("dimming");
+  client.subscribe("intelliLight/lightMode");
+  client.subscribe("intelliLight/dimming");
   //client.subscribe("colorChange");
 }
 
 void reconnect() {
   // Loop until we're reconnected
   while (!client.connected()) {
-    Serial.print("Attempting MQTT connection...");
+    Serial.print("Retrying MQTT connection...");
     // Attempt to connect
     // If you do not want to use a username and password, change next line to
     //if (client.connect("IntelliLamp")) {
     if (client.connect("IntelliLamp", mqtt_user, mqtt_password)) {
       Serial.println("connected");
-      client.subscribe("lightMode");
-      client.subscribe("lightAlert");
-      client.subscribe("dimming");
-      client.subscribe("colorChange");
+      client.subscribe("intelliLight/lightMode");
+      client.subscribe("intelliLight/dimming");
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
