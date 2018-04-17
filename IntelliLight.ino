@@ -82,8 +82,8 @@ void loop() {
 
   stateLoop();   // The main state loop manages solid full lamp light (normal livingroom / party / movie etc.)
   webserviceLoop(); // Manage webservice changes and potentially input from connected sensors, used for "alerts"
-  weatherLoop(); //shows the weather at the set time interval. Overides some leds
-  //alertLoop();  // The alert loop overwrites some, but not neccecarily all, led-settings from the other state loops (eg. if someone is at the door, calendar has appointment in an hour, the ISS is visible from your location etc) and can run at any time.
+  weatherLoop(); //shows the weather at the set time interval. Overides some leds.
+  alertLoop();  // The alert loop overwrites some, but not neccecarily all, led-settings from the other state loops (eg. if someone is at the door, calendar has appointment in an hour, the ISS is visible from your location etc) and can run at any time.
 
   showLeds(); // Only address the leds if any changes has been made
   utilityLoops(); // Background stuff such as listening for mqtt, running counters, keeping connection up etc.

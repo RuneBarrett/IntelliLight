@@ -17,21 +17,30 @@ Setup Instructions
 In order to use this system you need to add and fill in the following content to a file called *secrets.h*.
 This file needs to be placed in your arduino library, in a folder called *secrets*. (You arduino library will usually be placed in *../Documents/Arduino/libraries*)
 ```c
-#define WIFI_PASSWORD "<pwd>"
-#define WIFI_UNAME "<uid>"
+//WIFI credentials
+#define WIFI_PASSWORD "..."
+#define WIFI_UNAME "..."
 
+//MQTT credentials
 #define MQTT_SERVER "192.168.1...."
 #define MQTT_USER "" //user+pass only needed if the mqtt server requires it.
 #define MQTT_PASSWORD ""
 
-#define DARK_KEY "c6a77...."
+//Information for DarkSky requests
+#define DARK_KEY "c6a779..."
 #define LATI 55.414403// change to match your location
 #define LONGTI 12.149739
 
-#define WEB_REQ_INTERVAL 600000
-#define LIGHT_INTERVAL 150000
+// -------- Timers -------- (Changes are optional)
+//Webrequest
+#define WEB_REQ_INTERVAL 600     //How often to collect new weather information (max 1000 free a day) - Defined in seconds
+
+//Weather
+#define FORECAST_TIME 60         //How long into the future should we look - Defined in minutes.
+#define WEATHER_INTERVAL 20      //How often to go into weather mode - Defined in seconds
+#define SHOW_WEATHER_TIME 10     //How long time the weather mode shows - Defined in seconds
 ```
-The essential information you need to fill out is **wifi credentials**, **mqtt host address** and your **darksky key** (obtained from https://darksky.net/dev). The rest can be used with default values. 
+The essential information you need to fill out is **wifi credentials**, **mqtt host address** and your **darksky key** (obtained from https://darksky.net/dev). The rest can be used with default values.
 ### Required libraries
 These libraries can be installed using the *Arduino Library Manager*.
 1. **FastLED** - for contolling the LED's
