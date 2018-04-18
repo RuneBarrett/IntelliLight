@@ -8,8 +8,8 @@ void webserviceLoop() {
   {
     webserviceTimer = millis();
     //Fetch the time and add FORECAST_TIME to it
-    unixTime = timeClient.getEpochTime();
-    unixTime = unixTime.toInt() + (FORECAST_TIME * 60 * 1000); //1523896372 - returns cloudy for testing
+    
+    unixTime = unixTime.toInt() + (FORECAST_TIME * 60); //1523896372 - returns cloudy for testing
     Serial.println();
     Serial.println("Requesting weather data..");
     sendRequest();
@@ -51,7 +51,7 @@ void parseJson() {
   float currently_temp = currently["temperature"];
   temperature = currently_temp; //cant store directly to global String values for some reason
   weatherType = currently_type;
-  Serial.println(map(temperature, TEMP_COLD, TEMP_WARM, 0, 255));
+  //Serial.println(map(temperature, TEMP_COLD, TEMP_WARM, 0, 255));
   Serial.println(".. weather type: " + currently_type);
   Serial.print(".. temperature: ");
   Serial.println(currently_temp);

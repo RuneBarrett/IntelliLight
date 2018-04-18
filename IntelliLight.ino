@@ -14,8 +14,8 @@
     !!! SEE README FOR SETUP !!!
 
     This is the main program file. Contains all global variables, the setup method and the main loop.
-    Arduino treats all files as if they were one - thus, the file separation based on respective responsibilities and is purely for improving readability. 
-    All global variables are defined in this main file but can be referenced anywhere due to the single file treatment mentioned above. 
+    Arduino treats all files as if they were one - thus, the file separation based on respective responsibilities and is purely for improving readability.
+    All global variables are defined in this main file but can be referenced anywhere due to the single file treatment mentioned above.
 */
 
 //wifi
@@ -43,7 +43,7 @@ String unixTime;
 #define NUM_LEDS 46
 CRGB leds[NUM_LEDS];
 CRGB last_leds[NUM_LEDS];
-CHSV mainColor(180, 100, 160);//255, 241, 224
+CHSV mainColor(200, 100, 160);//255, 241, 224
 //CHSV mainColor(0, 30, 255);
 //webservices
 String dark_key = DARK_KEY;
@@ -54,6 +54,8 @@ String response;
 //An amount of counter objects that run between 0 and 255 in different speeds. Defined in the Counter.h library
 const int counterAmount = 10;
 Counter counters[counterAmount];
+Counter breatheCounter;
+int breatheAmount = 16;
 
 //Timers
 unsigned long webserviceTimer = WEB_REQ_INTERVAL * 900;
@@ -62,7 +64,7 @@ unsigned long lightTimer = WEATHER_INTERVAL * 1000 ;
 
 //Variables for storing weather data
 float temperature;
-String weatherType; 
+String weatherType;
 
 //State variables
 enum State {off, connecting, normalLight, showClock, partyMode};
@@ -76,17 +78,16 @@ AlertState currentAState = none;
 void setup() {
   FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
   Serial.begin(115200);
+  timeClient.begin();
+  timeClient.update(); //calling an update here seems to provide the right time for the first request sent when the program starts, most of the time
   wifiMulti.addAP(ssid, pass);
   connect_wifi_multi();
   connect_mqtt();
   initCounters();
-  timeClient.begin();
-  timeClient.update(); //calling an update here seems to provide the right time for the first request sent when the program starts
 }
 
 void loop() {
-  timeClient.update(); //Collects and updates the current time from an NTP server at set time intervals
-
+  if (!timeUpdate()) return; //Update time, and return until a correct value has been retrieved
   stateLoop();   // The main state loop manages solid full lamp light (normal livingroom / party / movie etc.)
   webserviceLoop(); // Manage webservice changes and potentially input from connected sensors, used for "alerts"
   weatherLoop(); //shows the weather at the set time interval. Overides some leds.

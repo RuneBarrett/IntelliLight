@@ -1,7 +1,7 @@
 /*
- * Holds methods that address the LED's in a general way.
- */
-// -------------- STATIC LIGHT MODES -----------------
+   Holds methods that address the LED's in general ways.
+*/
+// -------------- MAIN LIGHT METHODS -----------------
 //Set the lamp to normal light
 void setMainColor() {
   CHSV lessBright = mainColor;
@@ -13,6 +13,10 @@ void setMainColor() {
     else
       leds[i] = mainColor;
   }
+  breatheMainColor();
+  
+  //chase
+  //leds[breatheCounter.getVal()+20] = CRGB(40,40,40);
 }
 
 //Used for dimming the main color variable
@@ -25,6 +29,13 @@ void dimMainHSV(int val) {
     mainColor.val += val;
 }
 
+int lastVal = 0;
+void breatheMainColor() {
+  mainColor.val -= lastVal;
+  int currentVal = breatheCounter.getVal() - breatheAmount / 2;
+  mainColor.val += currentVal;
+  lastVal = currentVal;
+}
 // -------------- DYNAMIC LIGHT METHODS ----------------- (used by other light control methods)
 void allLanesRGB(CRGB outer, CRGB outmid, CRGB midin, CRGB inner) {
   for (int i = 0; i < NUM_LEDS; i = i + 1)
@@ -65,7 +76,7 @@ void fadeToMainColor() {
       leds[i].red--;
     else if (leds[i].red < temp.red)
       leds[i].red++;
-    //else fadeTimer = millis();  
+    //else fadeTimer = millis();
   }
 }
 

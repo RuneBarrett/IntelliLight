@@ -1,12 +1,13 @@
 /*
- * Different utilities used for setup and maintaining background tasks.
- */
+   Different utilities used for setup and maintaining background tasks.
+*/
 
 void utilityLoops() {
   //counter loops
   for (int i = 0; i < 10; i++)
     counters[i].count();
-
+  breatheCounter.count();
+  //Serial.println(breatheCounter.getVal());
   //maintain mqtt connection
   if (!client.connected()) reconnect();
 
@@ -14,6 +15,16 @@ void utilityLoops() {
   client.loop();
 
   //debugCounters();
+}
+
+boolean timeUpdate() {
+  timeClient.update(); //Collects and updates the current time from an NTP server at set time intervals
+  unixTime = timeClient.getEpochTime();
+  if (unixTime.length() < 6) { //dont run the program before a correct time is returned
+    Serial.println("unixTime: " + unixTime + " - waiting for correct time response");
+    return false;
+  }
+  return true;
 }
 
 bool connect_wifi() {
@@ -53,6 +64,7 @@ bool initCounters() {
   for (int i = 0; i < counterAmount; i++) {
     counters[i] = Counter(0, i + 1, true);
   }
+  breatheCounter = Counter(0, 1, true, 0, breatheAmount);
 }
 void testTimers() {
   for (int i = 0; i < 10; i++)
