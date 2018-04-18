@@ -61,14 +61,18 @@ void parseJson() {
 
 void determineWeatherState(String icon) {
   Serial.println(".. determining state");
-  if (icon.indexOf("rain") > 0) {
+  if (icon.indexOf("rain") > -1) {
     currentWState = rain; Serial.println(".. entering rainy state");
+    return;
   }
-  if (icon.indexOf("cloudy") > 0) {
+  if (icon.indexOf("cloudy") > -1) {
     currentWState = cloudy; Serial.println(".. entering cloudy state");
+    return;
   }
-  if (icon.indexOf("clear") > 0) {
+  if (icon.indexOf("clear") > -1) {
     currentWState = clearW; Serial.println(".. entering clear state");
+    return;
   }
+  Serial.println(".. no appropriate state found for: "+icon);
 }
 
