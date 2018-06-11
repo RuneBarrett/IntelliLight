@@ -61,6 +61,7 @@ The following libraries are found elsewhere, or created by yourself.
 2. **Secrets** - Holds your credentials and settings
   * Created by you (see the *creating secrets.h* section in *README.md*)
 
-### Soldering of the neopixels** - Heres two images to help with the soldering of the neopixels and wemos board 
+### Soldering of the neopixels
+Heres two images to help with the soldering of the neopixels and wemos board 
 ![alt text](http://i36.photobucket.com/albums/e44/kcschou/Intellilight_bb_zpssmg0mtdz.png)
 ![alt text](http://i36.photobucket.com/albums/e44/kcschou/Intellilight_schem_zpso60ljxor.png)
